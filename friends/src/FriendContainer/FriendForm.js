@@ -1,30 +1,28 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-export default function FriendForm({ friends }) {
-  const [friendArr, updateFriendArr] = useState(friends);
+export default function FriendForm() {
   const [name, updateName] = useState("");
   const [age, updateAge] = useState("");
   const [email, updateEmail] = useState("");
-  //   const changeHandler = e => {
-  //     e.persist();
-  //     updateNewFriend({ ...newFriend, [e.target.name]: e.target.value });
-  //   };
 
   const addFriend = e => {
-    e.preventDefault();
     const newFriendInput = {
       name: name,
       age: age,
       email: email
     };
 
-    updateFriendArr([...friendArr, newFriendInput]);
+    axios
+      .post(`http://localhost:5000/friends`, newFriendInput)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+
     updateName("");
     updateAge("");
     updateEmail("");
   };
 
-  // const { newFriend, addFriend, changeHandler } = props;
   return (
     <div>
       <form onSubmit={addFriend}>
@@ -40,7 +38,7 @@ export default function FriendForm({ friends }) {
           name="age"
           value={age}
           onChange={e => updateAge(e.target.value)}
-          type="text"
+          type="number"
           placeholder="Enter age..."
         />
 
