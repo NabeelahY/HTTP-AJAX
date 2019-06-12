@@ -5,7 +5,7 @@ export default function FriendList(props) {
   return (
     <div>
       {props.friends.map(friend => (
-        <div>
+        <div key={friend.id}>
           <Link to={`/${friend.id}`}>
             <h4>{friend.name}</h4>
           </Link>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from "axios";
+import FriendForm from "./FriendContainer/FriendForm";
 import FriendList from "./FriendContainer/FriendList";
 
 export default class App extends Component {
@@ -31,24 +32,28 @@ export default class App extends Component {
         this.setState({ loader: false });
       });
   };
+
+  changeHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     return (
       <div>
-      {
-          this.state.loader &&
-          <div className='loading'>Loading friends...</div>
-        }
-        {
-          this.state.friendData &&
+        {this.state.loader && <div className="loading">Loading friends...</div>}
+        {this.state.friendData && (
           <Router>
-          <Route
-            path="/"
-            render={props => (
-              <FriendList friends={this.state.friendData} {...props} />
-            )}
-          />
-        </Router>
-        }
+            <FriendForm friends={this.state.friendData} />
+            <Route
+              path="/"
+              render={props => (
+                <FriendList friends={this.state.friendData} {...props} />
+              )}
+            />
+          </Router>
+        )}
       </div>
     );
   }
