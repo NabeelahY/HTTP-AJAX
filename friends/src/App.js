@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import axios from "axios";
+import FriendList from "./FriendContainer/FriendList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      friendData: null,
+      errorMessage: "",
+      loader: false
+    };
+  }
+
+  componentDidMount() {
+    this.fetchFriendWithAxios();
+  }
+
+  fetchFriendWithAxios = () => {
+    this.setState({ loader: true });
+    axios
+      .get("http://localhost:5000/friends")
+      .then(res => {
+        this.setState({ friendData: res.data });
+      })
+      .catch(err => {
+        this.setState({ errorMessage: err.message });
+      })
+      .finally(() => {
+        this.setState({ loader: false });
+      });
+  };
+  render() {
+    return (
+      <div>
+      {
+          this.state.loader &&
+          <div className='loading'>Loading friends...</div>
+        }
+        {
+          this.state.friendData &&
+          <Router>
+          <Route
+            path="/"
+            render={props => (
+              <FriendList friends={this.state.friendData} {...props} />
+            )}
+          />
+        </Router>
+        }
+      </div>
+    );
+  }
 }
-
-export default App;
