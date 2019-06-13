@@ -33,7 +33,7 @@ const StyledForm = styled.div`
  }
 `;
 
-export default function FriendForm() {
+export default function FriendForm(props) {
   const [name, updateName] = useState("");
   const [age, updateAge] = useState("");
   const [email, updateEmail] = useState("");
@@ -48,8 +48,9 @@ export default function FriendForm() {
 
     axios
       .post(`http://localhost:5000/friends`, newFriendInput)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+      .then(res => props.setFriends(res.data))
+      .catch(err => console.log(err))
+      .finally(() => props.history.push('/'))
 
     updateName("");
     updateAge("");

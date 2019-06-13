@@ -4,7 +4,7 @@ import FriendCard from "./FriendCard";
 
 export default function Friend(props) {
 
-  const [friend, updateFriend] = useState(null);
+  const [friend, updateFriend] = useState(props.friends);
 
   useEffect(() => {
     const friendId = props.match.params.id;
@@ -17,7 +17,7 @@ export default function Friend(props) {
         });
     };
     getFriend(friendId)
-  }, []);
+  }, [props.match.params.id]);
 
   
   
@@ -25,5 +25,5 @@ export default function Friend(props) {
     return <div>Loading friend's information...</div>;
   }
 
-  return (<FriendCard friend={friend} updateFriend={updateFriend} {...props} />);
+  return (<FriendCard setFriends={props.setFriends} friend={friend} {...props} />);
 }
