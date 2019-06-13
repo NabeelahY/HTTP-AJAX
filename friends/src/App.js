@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
+import styled from 'styled-components';
 import FriendForm from "./FriendContainer/FriendForm";
 import FriendSection from "./FriendContainer/FriendSection";
 import Friend from "./FriendContainer/Friend";
+
+const StyledFriend = styled.div`
+  text-align: center;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 50%;
+`
 
 export default class App extends Component {
   constructor(props) {
@@ -36,11 +44,13 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <StyledFriend>
+      <Router>
+      
         {this.state.loader && <div className="loading">Loading friends...</div>}
 
         {this.state.friendData && (
-          <Router>
+          <div>
           <Route
               exact
               path="/"
@@ -48,7 +58,9 @@ export default class App extends Component {
                 <FriendSection friends={this.state.friendData} {...props} />
               )}
             />
+
             <Route exact path="/add-friend" component={FriendForm} />
+
             <Route
               exact 
               path="/friend/:id"
@@ -56,9 +68,12 @@ export default class App extends Component {
                 <Friend friends={this.state.friendData} {...props} />
               )}
             />
-          </Router>
+            </div>
         )}
-      </div>
+
+      
+      </Router>
+      </StyledFriend>
     );
   }
 }

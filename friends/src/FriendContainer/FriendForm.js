@@ -1,5 +1,37 @@
 import React, { useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
+
+const StyledForm = styled.div`
+ width: 100%;
+  h4 {
+    color:  #230C0F;
+    font-size: 2rem;
+    margin: 0.5rem 0;
+  }
+ form {
+  width: 60%;
+  display:block;
+  padding: 1rem;
+  margin: 0 auto;
+   input {
+     width: 100%;
+     padding: 1.5rem 0;
+     margin: 0.5rem 0;
+     border: 1px #A2D3C2 solid;
+     border-radius: 0.2rem;
+     text-align: center;
+   }
+   button {
+     width: 100%
+     border: none;
+     border-radius: 0.2rem;
+     padding: 1.5rem;
+     background-color: #A2D3C2;
+     color: #230C0F;
+   }
+ }
+`;
 
 export default function FriendForm() {
   const [name, updateName] = useState("");
@@ -7,7 +39,7 @@ export default function FriendForm() {
   const [email, updateEmail] = useState("");
 
   const addFriend = e => {
-    e.preventDefault()
+    e.preventDefault();
     const newFriendInput = {
       name: name,
       age: age,
@@ -25,7 +57,8 @@ export default function FriendForm() {
   };
 
   return (
-    <div>
+    <StyledForm>
+      <h4>Add a Friend</h4>
       <form onSubmit={addFriend}>
         <input
           name="name"
@@ -53,6 +86,6 @@ export default function FriendForm() {
 
         <button type="submit">Sumbit</button>
       </form>
-    </div>
+    </StyledForm>
   );
 }
