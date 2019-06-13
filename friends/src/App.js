@@ -38,18 +38,20 @@ export default class App extends Component {
     return (
       <div>
         {this.state.loader && <div className="loading">Loading friends...</div>}
+
         {this.state.friendData && (
           <Router>
-            <Route exact path="/add-friend" component={FriendForm} />
-            <Route
+          <Route
               exact
               path="/"
               render={props => (
                 <FriendSection friends={this.state.friendData} {...props} />
               )}
             />
+            <Route exact path="/add-friend" component={FriendForm} />
             <Route
-              path="/:id"
+              exact 
+              path="/friend/:id"
               render={props => (
                 <Friend friends={this.state.friendData} {...props} />
               )}

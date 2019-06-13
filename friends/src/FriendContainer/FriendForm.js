@@ -7,6 +7,7 @@ export default function FriendForm() {
   const [email, updateEmail] = useState("");
 
   const addFriend = e => {
+    e.preventDefault()
     const newFriendInput = {
       name: name,
       age: age,

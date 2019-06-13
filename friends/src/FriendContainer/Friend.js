@@ -9,6 +9,9 @@ export default function Friend(props) {
   useEffect(() => {
     const friendId = props.match.params.id;
     getFriend(friendId);
+
+    // const abortController = new AbortController();
+    // const signal = abortController.signal
   });
 
   const getFriend = id => {
@@ -19,6 +22,10 @@ export default function Friend(props) {
         console.error(error);
       });
   };
+  
+  // const friendId = props.match.params.id;
+  // getFriend(friendId);
+
   
   if (!friend) {
     return <div>Loading friend's information...</div>;
