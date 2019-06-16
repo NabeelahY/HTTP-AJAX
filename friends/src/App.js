@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import FriendForm from "./components/FriendForm";
@@ -11,6 +11,36 @@ const StyledFriend = styled.div`
   margin: 0 auto;
   padding: 1rem;
   width: 50%;
+`;
+
+const StyledNav = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem;
+  background-color: #a2d3c2;
+  width: 100%;
+
+  div {
+    padding: 1rem;
+    a {
+      text-decoration: none;
+      color: #230c0f;
+    }
+  }
+
+  nav {
+    display: flex;
+    padding: 0.5rem;
+    a {
+      margin: 0.5rem;
+      text-decoration: none;
+
+      div {
+        color: #230c0f;
+      }
+    }
+  }
 `;
 
 export default class App extends Component {
@@ -57,8 +87,24 @@ export default class App extends Component {
 
   render() {
     return (
-      <StyledFriend>
-        <Router>
+      <Router>
+        <StyledNav>
+          <div>
+            <NavLink to="/">
+              <h3>Friend's Ville</h3>
+            </NavLink>
+          </div>
+          <nav>
+            <NavLink to="/">
+              <div>Home</div>
+            </NavLink>
+            <NavLink to="/add-friend">
+              <div>Add Friend</div>
+            </NavLink>
+          </nav>
+        </StyledNav>
+
+        <StyledFriend>
           {this.state.loader && (
             <div className="loading">Loading friends...</div>
           )}
@@ -100,7 +146,6 @@ export default class App extends Component {
                 render={props => (
                   <Friend
                     setFriends={this.setFriends}
-                    toggleEditing={this.changeEditStatus}
                     friends={this.state.friendData}
                     {...props}
                   />
@@ -108,8 +153,8 @@ export default class App extends Component {
               />
             </div>
           )}
-        </Router>
-      </StyledFriend>
+        </StyledFriend>
+      </Router>
     );
   }
 }

@@ -29,7 +29,6 @@ const FriendCard = props => {
   const { friend, setFriends } = props;
 
   const deleteFriend = id => {
-    console.log(props.history);
     axios
       .delete(`http://localhost:5000/friends/${id}`)
       .then(res => setFriends(res.data))

@@ -55,7 +55,7 @@ export default function FriendForm(props) {
   const addFriend = e => {
     e.preventDefault();
     const id = props.match.params.id;
-    
+
     if (props.editing) {
       axios
         .put(`http://localhost:5000/friends/${id}`, { name, age, email })
@@ -77,7 +77,7 @@ export default function FriendForm(props) {
 
   return (
     <StyledForm>
-      <h4>Add a Friend</h4>
+      <h4>{props.editing ? 'Edit Friend' : 'Add a Friend' }</h4>
       <form onSubmit={addFriend}>
         <input
           name="name"
