@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import FriendForm from "./FriendContainer/FriendForm";
-import FriendSection from "./FriendContainer/FriendSection";
-import Friend from "./FriendContainer/Friend";
+import FriendForm from "./components/FriendForm";
+import FriendSection from "./components/FriendSection";
+import Friend from "./components/Friend";
 
 const StyledFriend = styled.div`
   text-align: center;
@@ -19,9 +19,16 @@ export default class App extends Component {
     this.state = {
       friendData: null,
       errorMessage: "",
-      loader: false
+      loader: false,
+      isEditing: false
     };
   }
+
+  changeEditStatus = () => {
+    this.setState(prevState => ({
+      isEditing: !prevState.isEditing
+    }));
+  };
 
   componentDidMount() {
     this.fetchFriendWithAxios();
@@ -42,14 +49,13 @@ export default class App extends Component {
       });
   };
 
-  render() {
-    console.log(this.state.friendData);
+  setFriends = friends => {
+    this.setState({
+      friendData: friends
+    });
+  };
 
-    const setFriends = friends => {
-      this.setState({
-        friendData: friends
-      });
-    };
+  render() {
     return (
       <StyledFriend>
         <Router>
@@ -69,8 +75,23 @@ export default class App extends Component {
 
               <Route
                 exact
+                path="/update-friend/:id"
+                render={props => (
+                  <FriendForm
+                    setFriends={this.setFriends}
+                    editing={true}
+                    friends={this.state.friendData}
+                    {...props}
+                  />
+                )}
+              />
+
+              <Route
+                exact
                 path="/add-friend"
-                render={props => <FriendForm setFriends={setFriends} {...props} />}
+                render={props => (
+                  <FriendForm setFriends={this.setFriends} {...props} />
+                )}
               />
 
               <Route
@@ -78,7 +99,8 @@ export default class App extends Component {
                 path="/friend/:id"
                 render={props => (
                   <Friend
-                    setFriends={setFriends}
+                    setFriends={this.setFriends}
+                    toggleEditing={this.changeEditStatus}
                     friends={this.state.friendData}
                     {...props}
                   />

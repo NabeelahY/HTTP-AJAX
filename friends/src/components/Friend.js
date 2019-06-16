@@ -3,7 +3,6 @@ import axios from "axios";
 import FriendCard from "./FriendCard";
 
 export default function Friend(props) {
-
   const [friend, updateFriend] = useState(props.friends);
 
   useEffect(() => {
@@ -16,14 +15,19 @@ export default function Friend(props) {
           console.error(error);
         });
     };
-    getFriend(friendId)
+    getFriend(friendId);
   }, [props.match.params.id]);
 
-  
-  
   if (!friend) {
     return <div>Loading friend's information...</div>;
   }
 
-  return (<FriendCard setFriends={props.setFriends} friend={friend} {...props} />);
+  return (
+    <FriendCard
+      changeEditStatus={props.toggleEditing}
+      setFriends={props.setFriends}
+      friend={friend}
+      {...props}
+    />
+  );
 }

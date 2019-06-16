@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -38,19 +38,37 @@ export default function FriendForm(props) {
   const [age, updateAge] = useState("");
   const [email, updateEmail] = useState("");
 
+  
+
+  useEffect(() => {
+    const friendId = props.match.params.id;
+    if (friendId) {
+      const editFriend = props.friends.find(
+        friend => friend.id === JSON.parse(friendId)
+      );
+      updateName(editFriend.name);
+      updateAge(editFriend.age);
+      updateEmail(editFriend.email);
+    }
+  }, [props.match.params.id, props.friends]);
+
   const addFriend = e => {
     e.preventDefault();
-    const newFriendInput = {
-      name: name,
-      age: age,
-      email: email
-    };
-
-    axios
-      .post(`http://localhost:5000/friends`, newFriendInput)
-      .then(res => props.setFriends(res.data))
-      .catch(err => console.log(err))
-      .finally(() => props.history.push('/'))
+    const id = props.match.params.id;
+    
+    if (props.editing) {
+      axios
+        .put(`http://localhost:5000/friends/${id}`, { name, age, email })
+        .then(res => props.setFriends(res.data))
+        .catch(err => console.log(err.message))
+        .finally(() => props.history.push("/"));
+    } else {
+      axios
+        .post(`http://localhost:5000/friends`, { name, age, email })
+        .then(res => props.setFriends(res.data))
+        .catch(err => console.log(err))
+        .finally(() => props.history.push("/"));
+    }
 
     updateName("");
     updateAge("");

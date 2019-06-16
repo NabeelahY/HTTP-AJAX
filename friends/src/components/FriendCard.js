@@ -26,19 +26,17 @@ const StyledFriendCard = styled.div`
 `;
 
 const FriendCard = props => {
-  const { friend, setFriends  } = props;
-  console.log(props)
+  const { friend, setFriends } = props;
 
   const deleteFriend = id => {
-      console.log(props.history)
+    console.log(props.history);
     axios
       .delete(`http://localhost:5000/friends/${id}`)
       .then(res => setFriends(res.data))
       .catch(error => {
         console.error(error);
       })
-      .finally(() => props.history.push('/'))
-      
+      .finally(() => props.history.push("/"));
   };
 
   const cardId = props.match.params.id;
@@ -52,7 +50,9 @@ const FriendCard = props => {
       <p>{friend.email}</p>
 
       <div>
-        <button>Update</button>
+        <button onClick={() => props.history.push(`/update-friend/${cardId}`)}>
+          Update
+        </button>
         <button onClick={() => deleteFriend(cardId)}>Delete</button>
       </div>
     </StyledFriendCard>
