@@ -40,6 +40,13 @@ const StyledNav = styled.header`
         color: #230c0f;
       }
     }
+
+    .selected {
+      font-weight: bold;
+      div {
+        color: #fff;
+      }
+    }
   }
 `;
 
@@ -90,15 +97,15 @@ export default class App extends Component {
       <Router>
         <StyledNav>
           <div>
-            <NavLink to="/">
+            <NavLink exact to="/" activeClassName="selected">
               <h3>Friend's Ville</h3>
             </NavLink>
           </div>
           <nav>
-            <NavLink to="/">
+            <NavLink exact to="/" activeClassName="selected">
               <div>Home</div>
             </NavLink>
-            <NavLink to="/add-friend">
+            <NavLink exact to="/add-friend" activeClassName="selected">
               <div>Add Friend</div>
             </NavLink>
           </nav>
